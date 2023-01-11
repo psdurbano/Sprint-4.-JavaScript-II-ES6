@@ -31,7 +31,6 @@ function moviesAverageOfDirector(movies, director) {
 
     // 5. Redondear el promedio a 2 decimales
     const roundedRating = Math.round(averageRating * 100) / 100;
-    console.log(averageRating);
 
     // 6. Devolver el promedio
     return roundedRating;
@@ -76,7 +75,22 @@ function orderByYear(movies) {
 
 
 // Exercise 6: Calculate the average of the movies in a category
-function moviesAverageByCategory() {
+function moviesAverageByCategory(array, genre) {
+ 
+  // 1. Filtra las películas por el genero dado
+  const newArray = array.filter(movie => movie.genre == genre);
+
+  // 3. Calcula la suma de las calificaciones de las películas
+  const sumOfRatings = newArray.reduce((acc, movie) => acc + movie.score, 0);  
+
+  // 4. Calcula el promedio de las calificaciones de las películas
+  const averageRating = (sumOfRatings / newArray.length);
+
+  // 5. Redondear el promedio a 2 decimales
+  const roundedRating = Math.round(averageRating * 100) / 100;
+
+  // 6. Devolver el promedio
+  return roundedRating;
 
 }
 
