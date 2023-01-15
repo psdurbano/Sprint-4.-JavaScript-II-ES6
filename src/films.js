@@ -17,22 +17,17 @@ function moviesAverageOfDirector(movies, director) {
   
     // 1. Filtra las películas por el director dado
     const filmsByDirector = movies.filter(movie => movie.director === director);
-
-    // 2. si no hay peliculas del director
-    if(filmsByDirector.length === 0){
-      return 0
-  }
   
-    // 3. Calcula la suma de las calificaciones de las películas
+    // 2. Calcula la suma de las calificaciones de las películas
     const sumOfRatings = filmsByDirector.reduce((acc, movie) => acc + movie.score, 0);  
 
-    // 4. Calcula el promedio de las calificaciones de las películas
+    // 3. Calcula el promedio de las calificaciones de las películas
     const averageRating = (sumOfRatings / filmsByDirector.length);
 
-    // 5. Redondear el promedio a 2 decimales
+    // 4. Redondear el promedio a 2 decimales
     const roundedRating = Math.round(averageRating * 100) / 100;
 
-    // 6. Devolver el promedio
+    // 5. Devolver el promedio
     return roundedRating;
 }
 
@@ -81,10 +76,17 @@ function moviesAverageByCategory(array, genre) {
   const newArray = array.filter(movie => movie.genre == genre);
 
   // 3. Calcula la suma de las calificaciones de las películas
-  const sumOfRatings = newArray.reduce((acc, movie) => acc + movie.score, 0);  
+  const sumOfRatings = newArray.reduce(function (acc, movie){
+      if (movie.score == NaN){
+        movie.score = 0
+      } else movie.score == movie.score;
+      return acc + movie.score;
+      },0) 
+      console.log(sumOfRatings);
 
   // 4. Calcula el promedio de las calificaciones de las películas
   const averageRating = (sumOfRatings / newArray.length);
+  console.log(newArray.length);
 
   // 5. Redondear el promedio a 2 decimales
   const roundedRating = Math.round(averageRating * 100) / 100;
@@ -95,9 +97,37 @@ function moviesAverageByCategory(array, genre) {
 }
 
 // Exercise 7: Modify the duration of movies to minutes
-function hoursToMinutes() {
+function hoursToMinutes(movies) {
+  return movies.map(movie => {
+    // Obtenemos la propiedad de duración de la película actual
+    const duration = movie.duration;
+    let hours = 0;
+    let minutes = 0;
 
+    // Comprueba si la cadena de duración incluye el carácter 'h'
+    if (duration.includes("h")) {
+        // Si lo hace, analiza las horas de la cadena
+        hours = parseInt(duration.split('h')[0]);
+        // Comprueba si la cadena de duración incluye el carácter 'min'
+        if (duration.includes("min")) {
+            // Si lo hace, analiza los minutos de la cadena
+            minutes = parseInt(duration.split('min')[0].split(' ')[1]);
+        }
+    } else {
+        // Si la cadena de duración no incluye 'h' o 'min',
+        // asume que la duración está en horas y la analiza como un entero
+        hours = parseInt(duration);
+    }
+    // Calcula la duración total en minutos multiplicando las horas por 60
+    // y agregando los minutos
+    const totalMinutes = (hours * 60) + minutes;
+
+    // Devuelve un nuevo objeto con todas las mismas propiedades que la película original
+    // excepto la propiedad de duración, que se reemplaza con los minutos totales
+    return {...movie, duration: totalMinutes};
+    });
 }
+
 
 // Exercise 8: Get the best film of a year
 function bestFilmOfYear() {
